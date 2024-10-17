@@ -4,9 +4,11 @@
   "private": "true",
   "main": "./src/index.ts",
   "scripts": {
-    "build": "tsup ./server/index.ts --format esm,cjs,iife --sourcemap --dts"
+    "build": "tsup ./server/index.ts --format esm,cjs,iife --sourcemap --dts",
+    "postinstall": "pnpm build"
   },
   "devDependencies": {
+    "@types/node": "^17.0.12",
     "@woovi/tsconfig": "workspace:*",
     "tsup": "^8.3.0",
     "typescript": "^5.5.4"

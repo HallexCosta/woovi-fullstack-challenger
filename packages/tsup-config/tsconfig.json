@@ -1,0 +1,3 @@
+{
+  "extends": "@woovi/tsconfig/base.json"
+}

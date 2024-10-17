@@ -9,11 +9,12 @@
     "lint": "biome --format",
     "preview": "vite preview",
     "relay": "relay-compiler",
-    "copy-env": "cp .env.example .env",
+    "copy:env": "cp .env.example .env",
     "relay:watch": "relay-compiler --watch",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "turbo:relay": "turbo run relay"
+    "turbo:relay": "turbo run relay",
+    "postinstall": "pnpm relay"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

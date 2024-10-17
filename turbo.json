@@ -18,7 +18,7 @@
       "cache": false,
       "persistent": true
     },
-    "copy-env": {},
+    "copy:env": {},
     "seeds": {},
     "lint": {},
     "relay": {},

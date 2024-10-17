@@ -8,6 +8,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
+import { useId } from 'react'
 
 interface PixTransactionSkeletonProps {
   className?: string
@@ -46,7 +47,7 @@ export const PixTransactionSkeleton = ({
           <TabsContent value="summary">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {[...Array(4)].map((_, index) => (
-                <Card key={index}>
+                <Card key={useId()}>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       <Skeleton className="h-4 w-24" />

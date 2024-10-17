@@ -17,7 +17,7 @@
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "seeds": "CLI=1 tsx ./src/seeds.ts",
-    "copy-env": "cp .env.example .env",
+    "copy:env": "cp .env.example .env",
     "build:tsc": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "build:babel": "rm -rf dist && babel src --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" --ignore \"*.spec.ts,**/*.d.ts\" --out-dir dist --copy-files --verbose",
     "build": "tsup ./src/server.ts --format esm,cjs,iife --sourcemap --dts",

@@ -10,12 +10,12 @@
     "build:withCheck": "tsc -b && vite build",
     "lint": "biome --format",
     "preview": "vite preview",
-    "copy-env": "cp .env.example .env",
+    "copy:env": "cp .env.example .env",
     "relay": "relay-compiler",
     "relay:watch": "relay-compiler --watch",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "make:deploy": "cd ../../ && pnpm run deploy:bank-ui"
+    "postinstall": "pnpm relay"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

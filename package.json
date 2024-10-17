@@ -6,7 +6,7 @@
     "start": "turbo run start --env-mode=loose",
     "build": "turbo run build --env-mode=loose",
     "seeds": "turbo run seeds --env-mode=loose",
-    "copy:env": "turbo run copy-env",
+    "copy:env": "turbo run copy:env",
     "dev": "turbo run dev",
     "format": "biome format --write .",
     "lint": "turbo run lint",

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/server.js",
     "dev": "tsx --watch ./src/server.ts",
-    "copy-env": "cp .env.example .env",
+    "copy:env": "cp .env.example .env",
     "test": "vitest",
     "seeds": "CLI=1 tsx ./src/seeds.ts",
     "test:coverage": "vitest --coverage",
