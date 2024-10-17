@@ -1,0 +1,22 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "typeRoots": [],
+    "noEmitOnError": false,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": [
+      "vite/client",
+      "@testing-library/jest-dom",
+      "@vitest/browser/providers/playwright"
+    ]
+  },
+  "exclude": ["node_modules"]
+}

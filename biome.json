@@ -1,0 +1,64 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "files": {
+    "maxSize": 30000000
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": true,
+    "ignore": [
+      "dist/*.{js,ts}",
+      "node_modules/*.{ts,js,tsx,jsx,json,md}",
+      "node_modules/*.d.{ts}",
+      "**/__generated__/*.graphql.ts",
+      "**/__generated__/*.graphql.js"
+    ],
+    "attributePosition": "auto",
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "quoteStyle": "single",
+      "indentWidth": 2,
+      "lineEnding": "lf",
+      "indentStyle": "space",
+      "trailingCommas": "none",
+      "jsxQuoteStyle": "double",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "quoteProperties": "asNeeded"
+    },
+    "parser": {},
+    "globals": ["$", "_", "externalVariable"]
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true
+    },
+    "formatter": {
+      "trailingCommas": "none"
+    }
+  }
+}

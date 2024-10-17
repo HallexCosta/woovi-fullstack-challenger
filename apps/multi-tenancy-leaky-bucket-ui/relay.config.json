@@ -1,0 +1,6 @@
+{
+  "src": "./src",
+  "language": "typescript",
+  "schema": "../multi-tenancy-leaky-bucket-server/schema/schema.graphql",
+  "eagerEsModules": true
+}

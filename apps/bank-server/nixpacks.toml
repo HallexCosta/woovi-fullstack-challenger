@@ -1,0 +1,10 @@
+providers = ["node"]
+
+[phases.install]
+cmd = "pnpm install"
+
+[phases.build]
+cmds = ["pnpm build --filter=@woovi/bank-server"]
+
+[start]
+cmd = "pnpm start --filter=@woovi/bank-server"

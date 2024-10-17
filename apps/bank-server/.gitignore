@@ -1,0 +1,5 @@
+**/__generated__
+node_modules
+dist
+coverage
+./schema/schema.graphql

@@ -1,0 +1,287 @@
+{
+  "item": [
+    {
+      "id": "4871c8a5-6d29-4704-9860-cbdef801a4f6",
+      "item": [
+        {
+          "id": "4c6af150-a4d4-43f3-8765-00b975516f36",
+          "name": "CreateTenant",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreateTenant ($input: CreateTenantInput!) {\n    CreateTenant (input: $input) {\n        tenantEdge {\n            node {\n                id\n                publicId\n                status\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "9f8fa44d-0254-4a96-a63c-4823f483b98a",
+          "name": "SignIn",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation SignIn ($input: SignInInput!) {\n    SignIn (input: $input) {\n        userEdge {\n            node {\n                id\n                publicId\n                tenantId\n                fullName\n                email\n                pixKey\n                profileImage\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        token\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"tenantPublicId\": 0,\n    \"email\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "8d007f71-48d0-4775-aa58-4d8a014c0b0f",
+          "name": "SignUp",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation SignUp ($input: SignUpInput!) {\n    SignUp (input: $input) {\n        userEdge {\n            node {\n                id\n                publicId\n                tenantId\n                fullName\n                email\n                pixKey\n                profileImage\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"fullName\": \"\",\n    \"email\": \"\",\n    \"pixKey\": \"\",\n    \"tenantPublicId\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "5d311fb4-d3aa-4bc0-8ce2-78084dc632a3",
+          "name": "PixKeyQuery",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation PixKeyQuery ($input: PixKeyQueryInput!) {\n    PixKeyQuery (input: $input) {\n        userEdge {\n            node {\n                id\n                publicId\n                tenantId\n                fullName\n                email\n                pixKey\n                profileImage\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        bucketCurrentCapacity\n        requestId\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"pixKey\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "4f1596b6-04cc-49f0-91cb-dddd461c0dd9",
+          "name": "BacenCreatePixTransaction",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation BacenCreatePixTransaction ($input: BacenCreatePixTransactionInput!) {\n    BacenCreatePixTransaction (input: $input) {\n        transactionEdge {\n            node {\n                id\n                e2eid\n                accountId\n                publicId\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"pixKey\": \"\",\n    \"e2eid\": \"\",\n    \"amount\": 0,\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "cde2d669-2856-45dd-a74f-f804480b641f",
+          "name": "BacenPixKeyQuery",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation BacenPixKeyQuery ($input: BacenPixKeyQueryInput!) {\n    BacenPixKeyQuery (input: $input) {\n        accountEdge {\n            node {\n                id\n                publicId\n                balance\n                status\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        e2eid\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"key\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "6e44caff-1938-4297-979e-c5620484b46d",
+          "name": "BacenRollbackToken",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation BacenRollbackToken ($input: BacenRollbackTokenInput!) {\n    BacenRollbackToken (input: $input) {\n        rollbacked\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f9150c95-8d12-46a9-994d-e5ad69762b03",
+          "name": "CreatePixTransaction",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreatePixTransaction ($input: CreatePixTransactionInput!) {\n    CreatePixTransaction (input: $input) {\n        transactionEdge {\n            node {\n                id\n                tenantId\n                accountId\n                publicId\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        pixKeyQueryRequestId\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"pixKey\": \"\",\n    \"amount\": 0,\n    \"pixKeyQueryRequestId\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "name": "mutations"
+    },
+    {
+      "id": "8e1010b7-dbc6-4bb8-b424-66984ab65a0a",
+      "item": [
+        {
+          "id": "f1975b84-6b0a-4ec2-afb3-2f191f8fee70",
+          "name": "accounts",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query accounts ($after: String, $first: Int, $before: String, $last: Int) {\n    accounts (after: $after, first: $first, before: $before, last: $last) {\n        pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n        }\n        edges {\n            node {\n                id\n                publicId\n                userId\n                balance\n                status\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n    }\n}",
+                "variables": "{\n  \"after\": \"\",\n  \"first\": 0,\n  \"before\": \"\",\n  \"last\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "9176c598-a374-40b9-bf1c-29aa6029479a",
+          "name": "tenant",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query tenant ($publicId: Int!) {\n    tenant (publicId: $publicId) {\n        node {\n            id\n            publicId\n            status\n            createdAt\n            updatedAt\n        }\n        cursor\n    }\n}",
+                "variables": "{\n  \"publicId\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "31cfb905-1d9f-4b03-b1d6-0d999978d8e1",
+          "name": "tenants",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query tenants ($after: String, $first: Int, $before: String, $last: Int) {\n    tenants (after: $after, first: $first, before: $before, last: $last) {\n        pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n        }\n        edges {\n            node {\n                id\n                publicId\n                status\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n    }\n}",
+                "variables": "{\n  \"after\": \"\",\n  \"first\": 0,\n  \"before\": \"\",\n  \"last\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "21521267-e67e-4c68-91f1-58d8b7c7fdc2",
+          "name": "users",
+          "request": {
+            "url": {
+              "host": ["{{url}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query users ($after: String, $first: Int, $before: String, $last: Int) {\n    users (after: $after, first: $first, before: $before, last: $last) {\n        pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n        }\n        edges {\n            node {\n                id\n                publicId\n                tenantId\n                fullName\n                email\n                pixKey\n                profileImage\n                createdAt\n                updatedAt\n            }\n            cursor\n        }\n        error\n    }\n}",
+                "variables": "{\n  \"after\": \"\",\n  \"first\": 0,\n  \"before\": \"\",\n  \"last\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "name": "queries"
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "id": "url",
+      "description": {
+        "content": "URL for the request.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": ""
+    }
+  ],
+  "info": {
+    "_postman_id": "dd4aa864-ea78-444a-82f3-bd284263863e",
+    "name": "Postman Collection (from GraphQL)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  }
+}

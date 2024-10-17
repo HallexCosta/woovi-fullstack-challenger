@@ -1,0 +1,29 @@
+{
+  "name": "@woovi/server-utils",
+  "version": "0.0.0",
+  "private": "true",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "browser": "./dist/index.global.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build:2": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
+    "build": "tsup ./src/index.ts --format esm,cjs,iife --sourcemap --dts",
+    "postinstall": "pnpm build"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.1",
+    "secure-random": "^1.1.2"
+  },
+  "devDependencies": {
+    "@woovi/tsconfig": "workspace:*",
+    "tsup": "^8.3.0",
+    "typescript": "^5.5.4"
+  }
+}

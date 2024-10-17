@@ -1,0 +1,247 @@
+"""The root bank server queries"""
+type Query {
+  accounts(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): AccountConnection
+  accountByPublicId(publicId: Int): AccountEdge
+  transactions(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+    accountPublicId: Int
+  ): TransactionConnection
+  transactionsByAccountPublicId(
+    accountPublicId: Int!
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): TransactionConnection
+  transactionsOfYear(
+    accountPublicId: Int!
+    year: Int
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): TransactionConnection
+}
+
+"""A connection to a list of items."""
+type AccountConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [AccountEdge]
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type AccountEdge {
+  """The item at the end of the edge"""
+  node: Account
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Accounts from woovi bank"""
+type Account {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int
+  userId: String
+  user: User
+  balance: Int
+
+  """status from account"""
+  status: String
+
+  """transactions maked for this account"""
+  transactions(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): TransactionConnection
+  createdAt: String
+  updatedAt: String
+}
+
+"""Users that creation the account"""
+type User {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int
+  account: Account
+  fullName: String
+  email: String
+  pixKey: String
+  profileImage: String
+  createdAt: Int
+  updatedAt: Int
+}
+
+"""A connection to a list of items."""
+type TransactionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TransactionEdge]
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+  totalPixIn: Int
+  totalPixOut: Int
+  totalPixInCount: Int
+  totalPixOutCount: Int
+  netFlow: Int
+  averageTransaction: Int
+}
+
+"""An edge in a connection."""
+type TransactionEdge {
+  """The item at the end of the edge"""
+  node: Transaction
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Transactions between peer-to-peer accounts"""
+type Transaction {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int!
+  amount: Int!
+  status: String!
+  type: String!
+  destinationReceiverAccountId: String
+  destinationReceiverAccount: Account
+  originSenderAccountId: String
+  originSenderAccount: Account
+  idempotencyKey: String
+  createdAt: String!
+  updatedAt: String
+}
+
+type Mutation {
+  CreateTransaction(input: CreateTransactionInput!): CreateTransactionPayload
+  SignIn(input: SignInInput!): SignInPayload
+  SignUp(input: SignUpInput!): SignUpPayload
+}
+
+type CreateTransactionPayload {
+  transactionEdge: TransactionEdge
+  cache: Boolean
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input CreateTransactionInput {
+  amount: Int!
+  destinationReceiverAccountPublicId: Int!
+  originSenderAccountPublicId: Int!
+  idempotencyKey: String!
+  clientMutationId: String
+}
+
+type SignInPayload {
+  userEdge: UserEdge
+  token: String
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge"""
+  node: User
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input SignInInput {
+  email: String!
+  clientMutationId: String
+}
+
+type SignUpPayload {
+  userEdge: UserEdge
+  accountEdge: AccountEdge
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input SignUpInput {
+  fullName: String
+  email: String
+  pixKey: String
+  clientMutationId: String
+}

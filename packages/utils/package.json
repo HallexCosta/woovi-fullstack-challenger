@@ -1,0 +1,23 @@
+{
+  "name": "@woovi/utils",
+  "description": "Utils can be shared between two context (server and ui)",
+  "version": "0.0.0",
+  "private": "true",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "browser": "./dist/index.global.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup ./src/index.ts --format esm,cjs,iife --sourcemap --dts",
+    "postinstall": "pnpm build"
+  },
+  "devDependencies": {
+    "@woovi/tsup-config": "workspace:*"
+  }
+}

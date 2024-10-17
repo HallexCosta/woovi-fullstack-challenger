@@ -1,0 +1,357 @@
+"""The root bank server queries"""
+type Query {
+  accounts(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): AccountConnection
+  tenant(publicId: Int!): TenantEdge
+  tenants(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): TenantConnection
+  users(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): UserConnection
+}
+
+"""A connection to a list of items."""
+type AccountConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [AccountEdge]
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type AccountEdge {
+  """The item at the end of the edge"""
+  node: Account
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Accounts"""
+type Account {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int
+  tenantId: String
+  userId: String
+  user: User
+  balance: Int
+
+  """status from account"""
+  status: String
+  createdAt: String
+  updatedAt: String
+}
+
+"""Users that creation the account"""
+type User {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int
+  tenantId: String
+  account: Account
+  tenant: Tenant
+  fullName: String
+  email: String
+  pixKey: String
+  profileImage: String
+  createdAt: String
+  updatedAt: String
+}
+
+"""Tenants from woovi leaky bucket"""
+type Tenant {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int
+
+  """status from tenant"""
+  status: String
+  createdAt: String
+  updatedAt: String
+}
+
+"""An edge in a connection."""
+type TenantEdge {
+  """The item at the end of the edge"""
+  node: Tenant
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""A connection to a list of items."""
+type TenantConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TenantEdge]
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]
+
+  """This field is used to store the message from authenticate of user"""
+  error: String
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge"""
+  node: User
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"\n  Consider all mutations with \\`bacen\\` prefix as simulator Dict API Bacen (external-service)\n  External Service\n  - Bacecn\n\n\n  Project Service\n  - Tenant\n  - User\n  - Account\n  - Transaction\n"
+type Mutation {
+  CreateTenant(input: CreateTenantInput!): CreateTenantPayload
+  SignIn(input: SignInInput!): SignInPayload
+  SignUp(input: SignUpInput!): SignUpPayload
+
+  """Pix key query"""
+  PixKeyQuery(input: PixKeyQueryInput!): PixKeyQueryPayload
+  BacenCreatePixTransaction(input: BacenCreatePixTransactionInput!): BacenCreatePixTransactionPayload
+
+  """Bacen Pix key query"""
+  BacenPixKeyQuery(input: BacenPixKeyQueryInput!): BacenPixKeyQueryPayload
+
+  """Bacen Rollback token from PixKeyQuery"""
+  BacenRollbackToken(input: BacenRollbackTokenInput!): BacenRollbackTokenPayload
+
+  """This mutation will be subject to the rules of PixKeyQueryBucket"""
+  CreatePixTransaction(input: CreatePixTransactionInput!): CreatePixTransactionPayload
+}
+
+type CreateTenantPayload {
+  tenantEdge: TenantEdge
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input CreateTenantInput {
+  clientMutationId: String
+}
+
+type SignInPayload {
+  userEdge: UserEdge
+  token: String
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input SignInInput {
+  tenantPublicId: Int!
+  email: String!
+  clientMutationId: String
+}
+
+type SignUpPayload {
+  userEdge: UserEdge
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input SignUpInput {
+  fullName: String
+  email: String
+  pixKey: String
+  tenantPublicId: Int
+  clientMutationId: String
+}
+
+type PixKeyQueryPayload {
+  userEdge: UserEdge
+  bucketTokensConsumePixKeyInvalid: Int
+  bucketCapacity: Int
+  bucketCurrentCapacity: Int
+  requestId: String
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input PixKeyQueryInput {
+  pixKey: String!
+  clientMutationId: String
+}
+
+type BacenCreatePixTransactionPayload {
+  transactionEdge: BacenTransactionEdge
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type BacenTransactionEdge {
+  """The item at the end of the edge"""
+  node: BacenTransaction
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Bacen Transactions"""
+type BacenTransaction {
+  """The ID of an object"""
+  id: ID!
+  e2eid: String!
+  accountId: String!
+  account: BacenAccount
+  destinationPixKey: String!
+  originPixKey: String!
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Bacen Accounts"""
+type BacenAccount {
+  """The ID of an object"""
+  id: ID!
+  publicId: Int
+  balance: Int
+
+  """status from account"""
+  status: String
+  createdAt: String
+  updatedAt: String
+}
+
+input BacenCreatePixTransactionInput {
+  originPixKey: String!
+  destinationPixKey: String!
+  e2eid: String
+  amount: Int!
+  clientMutationId: String
+}
+
+type BacenPixKeyQueryPayload {
+  accountEdge: BacenAccountEdge
+  e2eid: String
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type BacenAccountEdge {
+  """The item at the end of the edge"""
+  node: BacenAccount
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input BacenPixKeyQueryInput {
+  key: String!
+  clientMutationId: String
+}
+
+type BacenRollbackTokenPayload {
+  rollbacked: Boolean
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+input BacenRollbackTokenInput {
+  clientMutationId: String
+}
+
+type CreatePixTransactionPayload {
+  transactionEdge: TransactionEdge
+  pixKeyQueryRequestId: String
+  error: String
+  success: String
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type TransactionEdge {
+  """The item at the end of the edge"""
+  node: Transaction
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Transactions to some bank entity"""
+type Transaction {
+  """The ID of an object"""
+  id: ID!
+  tenantId: String!
+  tenant: Tenant
+  destinationUserId: String!
+  destinationUser: User
+  originUserId: String!
+  originUser: User
+  publicId: Int!
+  createdAt: String!
+  updatedAt: String
+}
+
+input CreatePixTransactionInput {
+  pixKey: String!
+  amount: Int!
+  pixKeyQueryRequestId: String
+  clientMutationId: String
+}

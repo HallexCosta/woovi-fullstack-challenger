@@ -1,0 +1,8 @@
+{
+  "name": "@woovi/babelweb",
+  "version": "1.0.0",
+  "dependencies": {
+    "@woovi/babel": "workspace:*"
+  },
+  "main": "index.js"
+}

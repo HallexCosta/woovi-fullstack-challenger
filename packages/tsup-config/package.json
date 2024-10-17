@@ -1,0 +1,14 @@
+{
+  "name": "@woovi/tsup-config",
+  "version": "0.0.0",
+  "private": "true",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsup ./server/index.ts --format esm,cjs,iife --sourcemap --dts"
+  },
+  "devDependencies": {
+    "@woovi/tsconfig": "workspace:*",
+    "tsup": "^8.3.0",
+    "typescript": "^5.5.4"
+  }
+}

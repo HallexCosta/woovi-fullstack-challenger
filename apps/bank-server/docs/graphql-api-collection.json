@@ -1,0 +1,151 @@
+{
+  "item": [
+    {
+      "id": "aac8caa4-79d5-4782-b2a9-98ce754f3616",
+      "item": [
+        {
+          "id": "cae3aa6f-d6c1-40e4-93b3-bd35632213e6",
+          "name": "CreateTransaction",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreateTransaction ($input: CreateTransactionInput!) {\n    CreateTransaction (input: $input) {\n        cache\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"amount\": 0,\n    \"destinationReceiverAccountPublicId\": 0,\n    \"originSenderAccountPublicId\": 0,\n    \"idempotencyKey\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f1848dc8-9ccb-49dc-8571-be4e069bdd7f",
+          "name": "SignIn",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation SignIn ($input: SignInInput!) {\n    SignIn (input: $input) {\n        token\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"email\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "80f61033-6cd7-46e8-92a9-824b3891e704",
+          "name": "SignUp",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation SignUp ($input: SignUpInput!) {\n    SignUp (input: $input) {\n        error\n        success\n        clientMutationId\n    }\n}",
+                "variables": "{\n  \"input\": {\n    \"fullName\": \"\",\n    \"email\": \"\",\n    \"pixKey\": \"\",\n    \"clientMutationId\": \"\"\n  }\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "name": "mutations"
+    },
+    {
+      "id": "bf01f95c-e446-454c-92fe-74677bd634d5",
+      "item": [
+        {
+          "id": "fb949724-db60-4e85-8e75-27240caaa379",
+          "name": "accounts",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": { "query": "query accounts {\n\n}", "variables": "{}" }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "74f1bc07-6eb3-4553-9353-6be0fe1363d1",
+          "name": "accountByPublicId",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query accountByPublicId ($publicId: Int) {\n    accountByPublicId (publicId: $publicId) {\n        cursor\n    }\n}",
+                "variables": "{\n  \"publicId\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "c4287c8c-3e33-4d48-9765-ddb9cbbb71c2",
+          "name": "transactions",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query transactions ($after: String, $first: Int, $before: String, $last: Int, $accountPublicId: Int) {\n    transactions (after: $after, first: $first, before: $before, last: $last, accountPublicId: $accountPublicId) {\n        totalCount\n    }\n}",
+                "variables": "{\n  \"after\": \"\",\n  \"first\": 0,\n  \"before\": \"\",\n  \"last\": 0,\n  \"accountPublicId\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "6f2655c0-ae1a-49f4-97df-febaea789346",
+          "name": "transactionsByAccountPublicId",
+          "request": {
+            "url": { "host": ["{{url}}"], "query": [], "variable": [] },
+            "method": "POST",
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query transactionsByAccountPublicId ($accountPublicId: Int!, $after: String, $first: Int, $before: String, $last: Int) {\n    transactionsByAccountPublicId (accountPublicId: $accountPublicId, after: $after, first: $first, before: $before, last: $last) {\n        totalCount\n    }\n}",
+                "variables": "{\n  \"accountPublicId\": 0,\n  \"after\": \"\",\n  \"first\": 0,\n  \"before\": \"\",\n  \"last\": 0\n}"
+              }
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "name": "queries"
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "id": "url",
+      "description": {
+        "content": "URL for the request.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": ""
+    }
+  ],
+  "info": {
+    "_postman_id": "ad2f6b67-bdd2-4fdd-9224-229b8cb4743f",
+    "name": "Postman Collection (from GraphQL)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  }
+}
