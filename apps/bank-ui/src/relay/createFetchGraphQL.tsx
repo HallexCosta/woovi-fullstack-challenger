@@ -50,6 +50,19 @@ export const fetchGraphQL: FetchFunction = async (
     .then((data) => resolve(data))
     .catch((err) => {
       console.log({ err })
+      alert('Occurred an fail while try communicate with the server')
+      if (window.location.pathname === '/') {
+        console.log(
+          'Occurred an fail while try communicate with the server',
+          config.VITE_GRAPHQL_URL
+        )
+        return
+      }
+      console.log(
+        'Occurred an fail while try communicate with the server',
+        config.VITE_GRAPHQL_URL
+      )
+      // window.history.pushState({}, undefined, '/')
       window.location.href = '/'
       resolve(err)
     })
