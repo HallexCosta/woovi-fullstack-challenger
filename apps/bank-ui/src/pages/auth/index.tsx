@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 
 import WooviLogo from '@/assets/woovi-logo.svg?react'
 import { Toaster } from '@/components/ui/sonner'
+import { toast } from 'sonner'
 import { useTabs } from './hooks/useTabs'
 import { SignInTab, SignInTrigger } from './tabs/SignIn'
 import { SignUpTab, SignUpTrigger } from './tabs/SignUp'
@@ -57,13 +58,18 @@ export const AuthTabs = () => {
           </Tabs>
         </CardContent>
         <CardFooter>
-          <Button className="w-full" variant="outline" disabled={isLoading}>
+          <Button
+            className="w-full"
+            variant="outline"
+            disabled={isLoading}
+            onClick={() => toast.info('Cooming soon feature')}
+          >
             {isLoading ? (
               <LoadingSpinner className="mr-2" type="long" />
             ) : (
               <QrCode className="mr-2 h-4 w-4" />
             )}
-            Continue with PIX QR Code
+            Continue with QR Code
           </Button>
         </CardFooter>
       </Card>
