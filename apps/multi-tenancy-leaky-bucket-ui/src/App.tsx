@@ -232,7 +232,7 @@ function App() {
 
   return (
     <>
-      <h1>Hállex Costa</h1>
+      {/* <h1>Hállex Costa</h1> */}
 
       <div className="my-0 mx-auto max-w-2xl border rounded p-12">
         <h1 className="text-3xl font-bold mb-4">Make Transaction</h1>
