@@ -26,7 +26,7 @@ alt User unathorized (JWT is invalid)
   return View the error message unathorized
 else User authorized (JWT is valid)
   alt Bucket at capacity (Transaction blocked)
-    CreateTransactionForm <-- GraphQLServer: Accelerated response (Discarded)
+    CreateTransactionForm <-- GraphQLServer: Throttling request
     "Actor" <-- CreateTransactionForm: Too many requests
     return Shows error message
   else Bucket with capacity (Transaction allowed)

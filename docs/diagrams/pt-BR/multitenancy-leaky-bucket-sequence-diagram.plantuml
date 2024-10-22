@@ -26,7 +26,7 @@ alt Usuário não autorizado (Token JWT invalido)
   return Visualiza mensagem de não autorizado
 else Usuário autorizado (Token JWT valido)
   alt Balde sem capacidade (Transação bloqueada)
-    CreateTransactionForm <-- GraphQLServer: Acelerar a resposta (Descarta)
+    CreateTransactionForm <-- GraphQLServer: Descartar a solicitação
     "Actor" <-- CreateTransactionForm: Too many requests
     return Visualiza mensagem de erro
   else Balde com capacidade (Transação permitida)
