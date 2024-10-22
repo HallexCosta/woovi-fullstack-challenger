@@ -1,0 +1,81 @@
+@startuml LeakyBucket
+actor "Actor"
+title Multitenancy Leaky Bucket
+
+participant "Create Transaction Form (UI) " as CreateTransactionForm
+participant "GraphQL (Server)" as GraphQLServer
+participant "Leaky Bucket (Rate Limiter)" as LeakyBucket
+participant "MongoDB (Database)" as MongoDB
+participant "Bacen Dict API Key Check (Simulator External Service)" as BacenDictAPIKeyCheck
+
+note over LeakyBucket: Balde inicia com 10 tokens.
+note over LeakyBucket: Cada consulta de chave pix que não se converta em um PixOut consome 1 token.
+note over LeakyBucket: 1 token é reposto no balde a cada uma hora.
+note over BacenDictAPIKeyCheck: Balde inicia com 70 tokens.
+note over BacenDictAPIKeyCheck: Cada consulta de chave valida que não se converta em um PixOut consome 1 token.
+note over BacenDictAPIKeyCheck: Cada consulta de chave pix invalida consome 20 tokens.
+note over BacenDictAPIKeyCheck: 70 tokens são repostos no balde a cada um minuto.
+
+"Actor"-> CreateTransactionForm: Abrir modal/form de criar transação
+CreateTransactionForm -> GraphQLServer: Envia token the authentificação
+CreateTransactionForm -> GraphQLServer: Envia os dados da transação
+
+alt Usuário não autorizado (Token JWT invalido)
+  CreateTransactionForm <-- GraphQLServer: Usuário não autorizado
+  "Actor" <-- CreateTransactionForm: Exibe mensagem de não autorizado
+  return Visualiza mensagem de não autorizado
+else Usuário autorizado (Token JWT valido)
+  alt Balde sem capacidade (Transação bloqueada)
+    CreateTransactionForm <-- GraphQLServer: Acelerar a resposta (Descarta)
+    "Actor" <-- CreateTransactionForm: Too many requests
+    return Visualiza mensagem de erro
+  else Balde com capacidade (Transação permitida)
+    CreateTransactionForm -> GraphQLServer: Solicitar criar transação
+    GraphQLServer -> LeakyBucket: Consumir 1 token
+
+    GraphQLServer -> MongoDB: Verificar se chave pix de destino pertence a um usuário
+    MongoDB -> MongoDB: Processando
+    alt sucesso
+      GraphQLServer<-- MongoDB: Chave pix pertence a um usuário
+    else error
+      GraphQLServer<-- MongoDB: Chave pix não pertence a um usuário
+      CreateTransactionForm<-- GraphQLServer: Retorna mensagem de erro
+      "Actor" <-- CreateTransactionForm: Exibir mensagem toast de erro
+      return Visualiza mensagem de erro
+    end
+
+    GraphQLServer-> MongoDB: Verificar se o usuário de destino pertence ao mesmo tenant do usuário de origin
+    MongoDB -> MongoDB: Processing
+    alt sucesso
+      GraphQLServer<-- MongoDB: Usuário são do mesmo tenant
+    else erro
+      GraphQLServer<-- MongoDB: Usuário são de tenant diferentes
+      CreateTransactionForm<-- GraphQLServer: Retorna mensagem de erro
+      "Actor" <-- CreateTransactionForm: Exibir mensagem toast de erro
+      return Visualiza mensagem de erro
+    end
+
+    GraphQLServer -> BacenDictAPIKeyCheck: Verificar chave pix existe no Bacen DICT
+    BacenDictAPIKeyCheck-> BacenDictAPIKeyCheck: Processa
+    alt sucesso
+      GraphQLServer<-- BacenDictAPIKeyCheck: Chave pix é valida
+    else erro
+      GraphQLServer<-- BacenDictAPIKeyCheck: Chave pix é invalida
+      CreateTransactionForm<-- GraphQLServer: Retorna mensagem de erro
+      "Actor" <-- CreateTransactionForm: Exibir mensagem toast de erro
+      return Visualiza mensagem de erro
+    end
+
+    GraphQLServer -> MongoDB: Salvar transação no banco de dados
+    MongoDB -> MongoDB: Persiste
+    GraphQLServer <-- MongoDB: Salvo
+    GraphQLServer -> LeakyBucket: Devolver 1 token ao balde
+    GraphQLServer <-- LeakyBucket: Devolvido
+
+    CreateTransactionForm <--GraphQLServer: Transação salva com sucesso
+    CreateTransactionForm <--GraphQLServer: Devolve dados da transação na resposta
+    "Actor" <--CreateTransactionForm: Exibir mensagem toast de sucesso
+    return Visualiza mensagem de erro
+  end
+end
+@enduml

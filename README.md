@@ -30,19 +30,31 @@ You need some requirements
 $ docker compose up -d
 ```
 
+**Configure envs**
+```sh
+$ pnpm copy:env
+```
+
 **Start graphql server**
 ```sh
-$ cd apps/bank-server && cp .env.example .env && pnpm dev
+$ cd apps/bank-server && pnpm dev
 ```
 > Access the ui: http://localhost:3333/graphql
 
 **Start UI server**
 ```sh
-$ cd apps/bank-ui && cp .env.example .env && pnpm relay && pnpm dev
+$ cd apps/bank-ui && pnpm relay && pnpm dev
 ```
 > Access the ui: http://localhost:5173
 
-Follow the same steps to up the `multi-tenancy-leaky-bucket-server` and `multi-tenancy-leaky-bucket-ui`
+Follow the same steps to up the `multi-tenancy-leaky-bucket-server` and `multi-tenancy-leaky-bucket-ui`  
+By default `multi-tenancy-leaky-bucket-server` and `bank-server` run on the default port 3333 so run one at a time, and the same goes for `multi-tenancy-leaky-bucket-ui` and `bank-ui`  
+
+### Sequence Diagrams
+![Multitenancy Diagram Sequence](./docs/diagrams/en-US/multitenancy-leaky-bucket-sequence-diagram.svg)
+
+In other langs:
+- [pt-BR](./docs/diagrams/pt-BR/multitenancy-leaky-bucket-sequence-diagram.svg)
 
 ### Common erros
 Íf you try run the relay and it throw an error relation to watchman, you can try install using brew command  

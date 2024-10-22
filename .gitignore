@@ -38,3 +38,5 @@ npm-debug.log*
 docs/api-collection
 
 ./nixpacks.toml
+
+out/
