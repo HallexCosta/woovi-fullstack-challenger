@@ -1,0 +1,67 @@
+@startuml Crud GraphQL Relay - CreateTransaction
+actor "Actor"
+title Crud GraphQL Relay - CreateTransaction
+
+participant "Create Transaction Form (UI)" as CreateTransactionForm
+participant "GraphQL (Server)" as GraphQLServer
+participant "Cache (Redis)" as RedisCache
+participant "MongoDB (Database)" as MongoDB
+
+note over RedisCache: The idempotency key has 5 minutes of duration in cache
+
+"Actor"-> CreateTransactionForm: Open create transaction modal/form
+CreateTransactionForm -> GraphQLServer: Send the authentication token
+CreateTransactionForm -> GraphQLServer: Send transaction data
+
+alt User unathorized (JWT is invalid)
+  CreateTransactionForm <-- GraphQLServer: User unathorized
+  "Actor" <-- CreateTransactionForm: Show the message unathorized
+  return View the error message unathorized
+end
+
+GraphQLServer -> RedisCache: Check if the idempotency-key already used in cached
+RedisCache -> RedisCache: Processing
+alt cache found
+  GraphQLServer <-- RedisCache: found idempotency-key in cache
+  CreateTransactionForm <-- GraphQLServer: Response saved Transaction record in cache
+  "Actor" <-- CreateTransactionForm: Display toast success message
+  return Views success message
+end 
+
+GraphQLServer -> MongoDB: Check if the idempotency-key already used in database
+MongoDB -> MongoDB: Processing
+alt idempotency-key already exists
+  GraphQLServer <-- MongoDB: found idempotency-key in database
+  GraphQLServer -> RedisCache: Save transaction record in cache
+  RedisCache -> RedisCache: Caching
+  GraphQLServer <-- RedisCache: Cached
+  CreateTransactionForm <-- GraphQLServer: Response saved Transaction record in cache
+  "Actor" <-- CreateTransactionForm: Display toast success message
+  return Views success message
+end
+
+GraphQLServer <-- RedisCache: Not found idempotency-key in cache
+GraphQLServer -> MongoDB: Check if destination account belongs to a user
+MongoDB -> MongoDB: Processing
+alt account not found
+  GraphQLServer<-- MongoDB: Account was not found
+  CreateTransactionForm<-- GraphQLServer: Return response error message
+  "Actor" <-- CreateTransactionForm: Display error toast message
+  return Views error message
+end
+GraphQLServer<-- MongoDB: Account was found
+GraphQLServer -> MongoDB: Debit from origin account and credit in destination account
+MongoDB -> MongoDB: Persisting
+GraphQLServer <-- MongoDB: Persisted
+GraphQLServer -> MongoDB: Save transaction in the database
+MongoDB -> MongoDB: Persisting
+GraphQLServer <-- MongoDB: Persisted
+GraphQLServer -> RedisCache: Save transaction record in cache
+RedisCache -> RedisCache: Caching
+GraphQLServer <-- RedisCache: Cached
+
+CreateTransactionForm <--GraphQLServer: Transaction saved successfully
+CreateTransactionForm <--GraphQLServer: Return transaction data in response
+"Actor" <--CreateTransactionForm: Display success toast message
+return Views success message
+@enduml

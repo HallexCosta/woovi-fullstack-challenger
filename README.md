@@ -60,8 +60,11 @@ In other langs:
 - [pt-BR](./docs/diagrams/pt-BR/multitenancy-leaky-bucket-sequence-diagram.svg)
 
 
-**Bank CRUD Diagram Sequence**  
-Soon coming
+**Bank CRUD GraphQL Relay Diagram Sequence**  
+![Crud GraphQL Realy](./docs/diagrams/en-US/crud-graphql-relay-sequence-diagram.svg)
+
+In other langs:
+- [pt-BR](./docs/diagrams/pt-BR/crud-graphql-relay-sequence-diagram.svg)
 
 ### Common erros
 Íf you try run the relay and it throw an error relation to watchman, you can try install using brew command  

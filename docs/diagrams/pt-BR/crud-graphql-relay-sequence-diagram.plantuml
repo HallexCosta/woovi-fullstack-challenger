@@ -1,0 +1,67 @@
+@startuml Crud GraphQL Relay - CreateTransaction
+actor "Ator"
+title Crud GraphQL Relay - CreateTransaction
+
+participant "Create Transaction Form (UI)" as CreateTransactionForm
+participant "GraphQL (Server)" as GraphQLServer
+participant "Cache (Redis)" as RedisCache
+participant "MongoDB (Database)" as MongoDB
+
+note over RedisCache: A chave de idempotência tem 5 minutos de duração no cache
+
+"Ator" -> CreateTransactionForm: Abrir modal/formulário de criação de transação
+CreateTransactionForm -> GraphQLServer: Enviar token de autenticação
+CreateTransactionForm -> GraphQLServer: Enviar dados da transação
+
+alt Usuário não autorizado (JWT é inválido)
+  CreateTransactionForm <-- GraphQLServer: Usuário não autorizado
+  "Ator" <-- CreateTransactionForm: Exibir mensagem de não autorizado
+  return Exibir mensagem de erro de não autorizado
+end
+
+GraphQLServer -> RedisCache: Verificar se a chave de idempotência já foi usada no cache
+RedisCache -> RedisCache: Processando
+alt cache encontrado
+  GraphQLServer <-- RedisCache: chave de idempotência encontrada no cache
+  CreateTransactionForm <-- GraphQLServer: Resposta com registro de transação salvo no cache
+  "Ator" <-- CreateTransactionForm: Exibir mensagem de sucesso
+  return Exibir mensagem de sucesso
+end
+
+GraphQLServer -> MongoDB: Verificar se a chave de idempotência já foi usada no banco de dados
+MongoDB -> MongoDB: Processando
+alt chave de idempotência já existe
+  GraphQLServer <-- MongoDB: chave de idempotência encontrada no banco de dados
+  GraphQLServer -> RedisCache: Salvar registro da transação no cache
+  RedisCache -> RedisCache: Salvando no cache
+  GraphQLServer <-- RedisCache: Cache salvo
+  CreateTransactionForm <-- GraphQLServer: Resposta com registro de transação salvo no cache
+  "Ator" <-- CreateTransactionForm: Exibir mensagem de sucesso
+  return Exibir mensagem de sucesso
+end
+
+GraphQLServer <-- RedisCache: Chave de idempotência não encontrada no cache
+GraphQLServer -> MongoDB: Verificar se a conta de destino pertence a um usuário
+MongoDB -> MongoDB: Processando
+alt conta não encontrada
+  GraphQLServer <-- MongoDB: Conta não encontrada
+  CreateTransactionForm <-- GraphQLServer: Retornar mensagem de erro na resposta
+  "Ator" <-- CreateTransactionForm: Exibir mensagem de erro
+  return Exibir mensagem de erro
+end
+GraphQLServer <-- MongoDB: Conta encontrada
+GraphQLServer -> MongoDB: Debitar da conta de origem e creditar na conta de destino
+MongoDB -> MongoDB: Persistindo
+GraphQLServer <-- MongoDB: Persistido
+GraphQLServer -> MongoDB: Salvar transação no banco de dados
+MongoDB -> MongoDB: Persistindo
+GraphQLServer <-- MongoDB: Persistido
+GraphQLServer -> RedisCache: Salvar registro de transação no cache
+RedisCache -> RedisCache: Salvando no cache
+GraphQLServer <-- RedisCache: Cache salvo
+
+CreateTransactionForm <--GraphQLServer: Transação salva com sucesso
+CreateTransactionForm <--GraphQLServer: Retornar dados da transação na resposta
+"Ator" <--CreateTransactionForm: Exibir mensagem de sucesso
+return Exibir mensagem de sucesso
+@enduml
