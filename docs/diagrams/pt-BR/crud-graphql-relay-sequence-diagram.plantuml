@@ -12,17 +12,21 @@ note over RedisCache: A chave de idempotência tem 5 minutos de duração no cac
 "Ator" -> CreateTransactionForm: Abrir modal/formulário de criação de transação
 CreateTransactionForm -> GraphQLServer: Enviar token de autenticação
 CreateTransactionForm -> GraphQLServer: Enviar dados da transação
+GraphQLServer -> GraphQLServer: Descriptografar Token JWT
+GraphQLServer -> MongoDB: Buscar usuário e conta por accountPublicId
 
 alt Usuário não autorizado (JWT é inválido)
+  GraphQLServer <-- MongoDB: Registro de usuário não encontrado
   CreateTransactionForm <-- GraphQLServer: Usuário não autorizado
   "Ator" <-- CreateTransactionForm: Exibir mensagem de não autorizado
   return Exibir mensagem de erro de não autorizado
 end
 
+GraphQLServer <-- MongoDB: Registro de usuário encontrado
 GraphQLServer -> RedisCache: Verificar se a chave de idempotência já foi usada no cache
 RedisCache -> RedisCache: Processando
 alt cache encontrado
-  GraphQLServer <-- RedisCache: chave de idempotência encontrada no cache
+  GraphQLServer <-- RedisCache: Chave de idempotência encontrada no cache
   CreateTransactionForm <-- GraphQLServer: Resposta com registro de transação salvo no cache
   "Ator" <-- CreateTransactionForm: Exibir mensagem de sucesso
   return Exibir mensagem de sucesso
@@ -31,7 +35,7 @@ end
 GraphQLServer -> MongoDB: Verificar se a chave de idempotência já foi usada no banco de dados
 MongoDB -> MongoDB: Processando
 alt chave de idempotência já existe
-  GraphQLServer <-- MongoDB: chave de idempotência encontrada no banco de dados
+  GraphQLServer <-- MongoDB: Chave de idempotência encontrada no banco de dados
   GraphQLServer -> RedisCache: Salvar registro da transação no cache
   RedisCache -> RedisCache: Salvando no cache
   GraphQLServer <-- RedisCache: Cache salvo
@@ -60,8 +64,8 @@ GraphQLServer -> RedisCache: Salvar registro de transação no cache
 RedisCache -> RedisCache: Salvando no cache
 GraphQLServer <-- RedisCache: Cache salvo
 
-CreateTransactionForm <--GraphQLServer: Transação salva com sucesso
-CreateTransactionForm <--GraphQLServer: Retornar dados da transação na resposta
-"Ator" <--CreateTransactionForm: Exibir mensagem de sucesso
+CreateTransactionForm <-- GraphQLServer: Transação salva com sucesso
+CreateTransactionForm <-- GraphQLServer: Retornar dados da transação na resposta
+"Ator" <-- CreateTransactionForm: Exibir mensagem de sucesso
 return Exibir mensagem de sucesso
 @enduml

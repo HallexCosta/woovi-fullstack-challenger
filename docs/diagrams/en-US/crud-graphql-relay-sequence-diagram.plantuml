@@ -12,13 +12,17 @@ note over RedisCache: The idempotency key has 5 minutes of duration in cache
 "Actor"-> CreateTransactionForm: Open create transaction modal/form
 CreateTransactionForm -> GraphQLServer: Send the authentication token
 CreateTransactionForm -> GraphQLServer: Send transaction data
+GraphQLServer -> GraphQLServer: Decrypt JWT Token
+GraphQLServer -> MongoDB: Search user and account by accountPublicId
 
 alt User unathorized (JWT is invalid)
+  GraphQLServer <-- MongoDB: Not found user record
   CreateTransactionForm <-- GraphQLServer: User unathorized
   "Actor" <-- CreateTransactionForm: Show the message unathorized
   return View the error message unathorized
 end
 
+GraphQLServer <-- MongoDB: Found user record
 GraphQLServer -> RedisCache: Check if the idempotency-key already used in cached
 RedisCache -> RedisCache: Processing
 alt cache found
