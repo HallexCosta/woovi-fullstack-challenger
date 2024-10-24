@@ -75,3 +75,4 @@ Quickly explanation about relation between keys, users and tenants:
 [Woovi Bank Server](../bank-server/README.md)  
 [Sibelius Seraphini](https://github.com/sibelius)  
 [Pix Out - EndToEndId](https://developers.bitcapital.com.br/docs/pix-out#modelo-de-requisi%C3%A7%C3%A3o)  
+[Main Algorithms used in Rate Limiters](https://www.youtube.com/watch?v=ABIjFZe0B_g)
