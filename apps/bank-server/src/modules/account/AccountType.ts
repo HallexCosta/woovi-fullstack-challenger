@@ -1,4 +1,9 @@
-import { GraphQLInt, GraphQLObjectType, GraphQLString } from '@/modules/graphql'
+import {
+  GraphQLBoolean,
+  GraphQLInt,
+  GraphQLObjectType,
+  GraphQLString
+} from '@/modules/graphql'
 import DataLoader from 'dataloader'
 import {
   connectionArgs,
@@ -59,6 +64,22 @@ export const AccountType: GraphQLObjectType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'status from account',
       resolve: (account) => account.status
+    },
+    locked: {
+      type: GraphQLBoolean,
+      description: 'lockedDuration',
+      resolve: (account) => account.locked
+    },
+
+    lockedDuration: {
+      type: GraphQLInt,
+      description: 'lockedDuration',
+      resolve: (account) => account.locklockedDurationed
+    },
+    lockTimestamp: {
+      type: GraphQLInt,
+      description: 'lockTimestamp',
+      resolve: (account) => account.lockTimestamp
     },
     transactions: {
       type: TransactionConnection,

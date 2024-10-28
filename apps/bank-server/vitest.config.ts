@@ -5,6 +5,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
+    testTimeout: 50000,
     setupFiles: ['./src/__tests__/setup/index.ts'],
     coverage: {
       provider: 'istanbul',

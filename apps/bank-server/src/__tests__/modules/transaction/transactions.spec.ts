@@ -55,6 +55,8 @@ describe('transactions query', () => {
       .variables({ accountPublicId: account?.publicId })
       .end()
 
+    console.log({ response: response.data })
+
     const { transactions } = response.data
 
     expect(transactions.edges.length === 1).toBeTruthy()

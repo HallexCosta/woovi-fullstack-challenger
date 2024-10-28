@@ -1,22 +1,34 @@
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { randomUUID } from 'node:crypto'
+import { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
+
+let replSet: MongoMemoryReplSet = null
 
 export const startMemoryDb = async () => {
-  const mongod = await MongoMemoryServer.create({
-    instance: {
-      // settings here
-      // dbName is null, so it's random
-      // dbName: MONGO_DB_NAME,
-    },
-    binary: {
-      version: '4.0.5'
-    }
-    // debug: true,
-    // autoStart: false,
-  })
+  // const mongod = await MongoMemoryServer.create({
+  //   instance: {
+  //     // settings here
+  //     // dbName is null, so it's random
+  //     // dbName: MONGO_DB_NAME,
+  //   },
+  //   binary: {
+  //     version: '4.0.5'
+  //   }
+  //   // debug: true,
+  //   // autoStart: false,
+  // })
 
-  global.__MONGO_URI__ = mongod.getUri()
+  const name = randomUUID()
+  if (!replSet) {
+    replSet = await MongoMemoryReplSet.create({
+      replSet: { count: 3, name, storageEngine: 'wiredTiger' },
+      binary: {
+        version: '4.0.12'
+      }
+    }) // This will create an ReplSet with 3 members
+    await replSet.waitUntilRunning()
+  }
+  global.__MONGO_URI__ = replSet.getUri()
+  console.log(name, global.__MONGO_URI__)
 
-  console.log(global.__MONGO_URI__)
-
-  return mongod
+  return replSet
 }

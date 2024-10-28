@@ -7,8 +7,8 @@ declare global {
 }
 
 export async function connectMongoose() {
-  vi.setConfig({ testTimeout: 5_000 })
-
+  // const defaultMongoUri =
+  //   'mongodb://localhost:27000,localhost:27001,localhost:27002?replicaSet=rs'
   return await mongoose.connect(global.__MONGO_URI__, {
     connectTimeoutMS: 10000,
     dbName: global.__MONGO_DB_NAME__

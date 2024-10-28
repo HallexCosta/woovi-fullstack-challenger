@@ -6,13 +6,18 @@ import { createUser } from '@/__tests__/setup/fixtures/createUser'
 import { main } from '@/main'
 import request from 'supertest-graphql'
 
-import * as common from '@/common/generateUniqueIntId'
+import { generateUniqueIntId } from '@/common/generateUniqueIntId'
+import { UserModel } from '@/modules/user/UserModel'
 
 describe('Sign In', () => {
   it('should be return 200 when signin in app', async () => {
-    const { _id, email, publicId } = await createUser()
+    const publicId = generateUniqueIntId()
+    const { _id, email } = await createUser({
+      publicId
+    })
     await createAccount({
-      userId: _id
+      userId: _id,
+      locked: false
     })
 
     const query = gql`
@@ -72,6 +77,7 @@ describe('Sign In', () => {
       })
       .end()
 
+    console.log(response)
     const {
       SignIn: { error, token, success }
     } = response.data

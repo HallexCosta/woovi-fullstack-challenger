@@ -15,6 +15,7 @@ export const signInService = async (email: string) => {
     email
   })
 
+  console.log({ email, user })
   if (!user) {
     return left<SignInServiceOutput>('Email is invalid')
   }
@@ -22,7 +23,6 @@ export const signInService = async (email: string) => {
   const account = await Account.findOne({
     userId: user.id
   })
-
   if (!account) {
     return left<SignInServiceOutput>('Account not found')
   }

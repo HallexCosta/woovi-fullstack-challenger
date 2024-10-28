@@ -5,10 +5,14 @@ import { type User, UserModel } from '@/modules/user/UserModel'
 export const createUser = (args: Partial<User> = {}) => {
   const i = getCounter('user')
 
-  return new UserModel({
-    name: `user#${i}`,
-    email: `user${i}@example.com`,
-    publicId: generateUniqueIntId(),
-    ...args
-  }).save()
+  return new UserModel(
+    Object.assign(
+      {
+        name: `user#${i}`,
+        email: `user${i}@example.com`,
+        publicId: generateUniqueIntId()
+      },
+      args
+    )
+  ).save()
 }

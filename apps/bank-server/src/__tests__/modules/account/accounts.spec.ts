@@ -64,7 +64,7 @@ describe('accounts query', () => {
     expect(accountByPublicId.node.transactions.edges.length === 2).toBeTruthy()
     expect((await Transaction.find()).length === 3).toBeTruthy()
   })
-  it.only('should be list all accounts', async () => {
+  it('should be list all accounts', async () => {
     await Promise.all([createAccount(), createAccount()])
 
     const query = gql`

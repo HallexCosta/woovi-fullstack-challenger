@@ -10,6 +10,9 @@ export type AccountModel = {
   userId: string
   balance: number
   status: string
+  locked: boolean
+  lockTimestamp: number
+  lockDuration: number
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -28,6 +31,18 @@ export const Schema = new mongoose.Schema<AccountModelDocument>(
     balance: {
       type: Number,
       description: 'Balance amount from account'
+    },
+    locked: {
+      type: Boolean,
+      default: false,
+      description: 'Pessimistic lock for document'
+    },
+    lockTimestamp: {
+      type: Number
+    },
+    lockDuration: {
+      type: Number, // in milisseconds
+      default: 60 * 1000 // 1 minute
     },
     status: {
       type: String,
