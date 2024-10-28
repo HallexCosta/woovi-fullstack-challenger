@@ -15,8 +15,7 @@
     "schema": "turbo run schema",
     "compose:up": "docker-compose -f docker-compose.yml up -d",
     "compose:down": "docker-compose -f docker-compose down",
-    "bkp:deploy:bank-ui": "cp ./apps/bank-ui/nixpacks.toml . && railway link -p woovi-bank --service woovi-bank-ui && sleep 3 && railway up",
-    "bkp:deploy:bank-server": "cp ./apps/bank-server/nixpacks.toml . && railway link -p woovi-bank --service woovi-bank-server && sleep 3 && railway up",
+    "mongo:replicaSet:up": "run-rs --portStart 27000",
     "deploy:bank-ui": "railway link -p woovi-bank -s woovi-bank-ui && sleep 3 && railway up",
     "deploy:bank-server": "railway link -p woovi-bank -s woovi-bank-server && sleep 3 && railway up"
   },
