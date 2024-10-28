@@ -247,7 +247,7 @@ export const startLeak = async ({
 }: BucketStartLeakProps) => {
   updateProcessRunning(true)
 
-  const item = getFirstRequestFromQueue() // Pega o primeiro item da fila
+  const item = getFirstRequestFromQueue()
 
   if (!item) return
 
@@ -426,19 +426,6 @@ export const bucket = ({
       lastRefillTime,
       idleTimeout
     })
-  // const getState = () => {
-  // 	return {
-  // 		lifetime,
-  // 		lastRequestTime,
-  // 		currentCapacity,
-  // 		leakInterval,
-  // 		refillInterval,
-  // 		refillRate,
-  // 		capacity,
-  // 		lastRefillTime,
-  // 		idleTimeout
-  // 	}
-  // }
 
   return {
     consume,
